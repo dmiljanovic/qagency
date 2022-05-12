@@ -13,4 +13,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//Home
 Route::get('/', 'HomeController@index')->name('home.index');
+//Logging
+Route::get('/log', 'AuthController@log')->name('auth.login');
+Route::post('/log', 'AuthController@logging')->name('auth.logging');
+Route::get('/logout', 'AuthController@logout')->name('auth.logout');
+//Author
+Route::get('/author', 'AuthorController@index')->name('author.index');
+Route::get('/author/{author}', 'AuthorController@show')->name('author.show');
+Route::delete('/author/{author}', 'AuthorController@delte')->name('author.delete');
+//Book
+Route::get('/book', 'BookController@create')->name('author.create');
+Route::post('/book', 'BookController@store')->name('author.store');
