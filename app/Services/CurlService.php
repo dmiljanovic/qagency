@@ -31,6 +31,9 @@ class CurlService
         $headers = [
             'Content-Type: application/json',
         ];
+        if($token) {
+            $headers[] = 'token_key: ' . $token;
+        }
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
