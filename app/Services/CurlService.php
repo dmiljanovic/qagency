@@ -46,9 +46,7 @@ class CurlService
 
         // EXECUTE:
         $result = curl_exec($curl);
-        if(!$result){
-            abort(400);
-        }
+        
         curl_close($curl);
 
         return $result;

@@ -25,6 +25,7 @@ Route::middleware(['check.auth'])->group(function () {
     Route::get('/author/{author}', 'AuthorController@show')->name('author.show');
     Route::delete('/author/{author}', 'AuthorController@delete')->name('author.delete');
     //Book
-    Route::get('/book', 'BookController@create')->name('author.create');
-    Route::post('/book', 'BookController@store')->name('author.store');
+    Route::get('/book', 'BookController@index')->name('book.index');
+    Route::get('/book/create', 'BookController@create')->name('book.create');
+    Route::post('/book', 'BookController@store')->name('book.store');
 });

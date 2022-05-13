@@ -13,7 +13,7 @@ class StoreBookRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,13 +24,13 @@ class StoreBookRequest extends FormRequest
     public function rules()
     {
         return [
-            'author_id' => 'required',
-            'title' => 'required',
-            'release_date' => 'reuired',
-            'description' => 'required',
-            'isbn' => 'required',
-            'format' => 'required',
-            'number_of_pages' => 'required'
+            'author' => 'string|required',
+            'title' => 'string|required|max:255|min:1',
+            'release_date' => 'date|required',
+            'description' => 'string|required',
+            'isbn' => 'string|required',
+            'format' => 'string|required',
+            'number_of_pages' => 'integer|required'
         ];
     }
 }

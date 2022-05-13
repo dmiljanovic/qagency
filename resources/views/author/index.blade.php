@@ -2,6 +2,11 @@
 @section('content')
 
     <div class="row">
+        <div class="col-lg-6 mt-5">
+            <h5>Authors</h5>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-lg-12 mt-5">
             <div class="row">
                 <div class="col-lg-12 mt-5">

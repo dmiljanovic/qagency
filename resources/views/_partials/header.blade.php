@@ -8,6 +8,7 @@
             @endif
             <a class="nav-item nav-link" href="{{ URL::to(route('home.index')) }}">Home</a>
             @if(request()->session()->has('user_data'))
+            <a class="nav-item nav-link" href="{{ URL::to(route('book.index')) }}">Books</a>
             <a class="nav-item nav-link" href="{{ URL::to(route('author.index')) }}">Authors</a>
             <a class="nav-item nav-link" href="{{ URL::to(route('auth.logout')) }}">Logout</a>
             @else
