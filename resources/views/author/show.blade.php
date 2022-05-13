@@ -10,32 +10,32 @@
 
                 <div class="form-group">
                     {!! Form::label('first_name', 'First Name') !!}
-                    {!! Form::text('first_name', $author['first_name'], ['class' => 'form-control']) !!}
+                    {!! Form::text('first_name', $author['first_name'], ['class' => 'form-control', 'readonly']) !!}
                 </div>
 
                 <div class="form-group">
                     {!! Form::label('last_name', 'Last Name') !!}
-                    {!! Form::text('last_name', $author['last_name'], ['class' => 'form-control']) !!}
+                    {!! Form::text('last_name', $author['last_name'], ['class' => 'form-control', 'readonly']) !!}
                 </div>
 
                 <div class="form-group">
                     {!! Form::label('birthday', 'Birthday') !!}
-                    {!! Form::date('birthday', \Carbon\Carbon::parse($author['birthday']), ['class' => 'form-control']) !!}
+                    {!! Form::date('birthday', \Carbon\Carbon::parse($author['birthday']), ['class' => 'form-control', 'readonly']) !!}
                 </div>
 
                 <div class="form-group">
                     {!! Form::label('biography', 'Biography') !!}
-                    {!! Form::textarea('biography', $author['biography'], ['class' => 'form-control']) !!}
+                    {!! Form::textarea('biography', $author['biography'], ['class' => 'form-control', 'readonly']) !!}
                 </div>
 
                 <div class="form-group">
                     {!! Form::label('gender', 'Gender') !!}
-                    {!! Form::text('gender', $author['gender'], ['class' => 'form-control']) !!}
+                    {!! Form::text('gender', $author['gender'], ['class' => 'form-control', 'readonly']) !!}
                 </div>
 
                 <div class="form-group">
                     {!! Form::label('place_of_birth', 'Place of birth') !!}
-                    {!! Form::text('place_of_birth', $author['gender'], ['class' => 'form-control']) !!}
+                    {!! Form::text('place_of_birth', $author['gender'], ['class' => 'form-control', 'readonly']) !!}
                 </div>
 
                 {!! Form::close() !!}

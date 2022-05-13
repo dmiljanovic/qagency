@@ -92,7 +92,7 @@ class AuthorController extends Controller
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function delete()
+    public function delete($id)
     {
         $url = 'https://symfony-skeleton.q-tests.com/api/v2/authors/' . $id;
 
@@ -114,6 +114,8 @@ class AuthorController extends Controller
             return redirect()->back();
         }
 
-        return view('author.index', compact('authors', []));
+        request()->session()->flash('message', 'Succesfully deleted author.');
+
+        return redirect()->back();
     }
 }
