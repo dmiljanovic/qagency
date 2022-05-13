@@ -35,7 +35,7 @@
 
                 <div class="form-group">
                     {!! Form::label('place_of_birth', 'Place of birth') !!}
-                    {!! Form::text('place_of_birth', $author['gender'], ['class' => 'form-control', 'readonly']) !!}
+                    {!! Form::text('place_of_birth', $author['gender'], ['class' => 'form-control']) !!}
                 </div>
 
                 {!! Form::close() !!}

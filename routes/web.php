@@ -28,4 +28,5 @@ Route::middleware(['check.auth'])->group(function () {
     Route::get('/book', 'BookController@index')->name('book.index');
     Route::get('/book/create', 'BookController@create')->name('book.create');
     Route::post('/book', 'BookController@store')->name('book.store');
+    Route::delete('/book/{book}', 'BookController@delete')->name('book.delete');
 });

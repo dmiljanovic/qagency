@@ -107,7 +107,7 @@ class BookController extends Controller
         try {
             $makeCall = $this->curlService->callAPI('POST', $url, json_encode($input), $this->token);
         } catch (\Exception $e) {
-            Log::error('Error while getting authors: ', ['message' => $e]);
+            Log::error('Error while getting books: ', ['message' => $e]);
             request()->session()->flash('message', 'Unexpected error, please try again later.');
 
             return redirect()->back()->withInput();
@@ -116,12 +116,42 @@ class BookController extends Controller
         $response = json_decode($makeCall, true);
 
         if(isset($response['status'])) {
-            Log::error('Error while getting authors: ', ['message' => $response['trace']]);
+            Log::error('Error while getting books: ', ['message' => $response['trace']]);
             request()->session()->flash('message', 'Unexpected error, please try again later.');
 
             return redirect()->back()->withInput();
         }
 
         return view('book.index');
+    }
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function delete($id)
+    {
+        $url = 'https://symfony-skeleton.q-tests.com/api/v2/books/' . $id;
+
+        try {
+            $makeCall = $this->curlService->callAPI('DELETE', $url, [], $this->token);
+        } catch (\Exception $e) {
+            Log::error('Error while deleting books: ', ['message' => $e]);
+            request()->session()->flash('message', 'Unexpected error, please try again later.');
+
+            return redirect()->back();
+        }
+
+        $response = json_decode($makeCall, true);
+
+        if(isset($response['status'])) {
+            Log::error('Error while deleting book: ', ['message' => $response['trace']]);
+            request()->session()->flash('message', 'Unexpected error, please try again later.');
+
+            return redirect()->back();
+        }
+
+        request()->session()->flash('message', 'Succesfully deleted book.');
+
+        return redirect()->back();
     }
 }
