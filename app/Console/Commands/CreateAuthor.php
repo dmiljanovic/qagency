@@ -49,10 +49,8 @@ class CreateAuthor extends Command
 
         $data = $this->collectData();
 
-        $url = 'https://symfony-skeleton.q-tests.com/api/v2/books';
-
-
-        dd(json_encode($data));
+        $url = 'https://symfony-skeleton.q-tests.com/api/v2/authors';
+        
         try {
             $makeCall = $this->curlService->callAPI('POST', $url, json_encode($data), $this->token);
         } catch (\Exception $e) {
@@ -111,20 +109,16 @@ class CreateAuthor extends Command
     private function collectData()
     {
         return [
-            "first_name"=> "string",
-            "last_name"=> "string",
-            "birthday"=> "2022-05-13T15:04:03.207Z",
-            "biography"=> "string",
-            "gender"=> "male",
-            "place_of_birth"=> "string"
+            'first_name' => $this->ask('What is author\'s first name?'),
+            'last_name' => $this->ask('What is author\'s last name?'),
+            'birthday' => $this->ask('What is author\'s birthday? (d-m-y format please)'),
+            'biography' => $this->ask('What is author\'s biography?'),
+            'gender' => $this->choice(
+                'What is author\'s gender?',
+                ['male', 'female'],
+                0,
+            ),
+            'place_of_birth' => $this->ask('What is author place of birth?')
         ];
-        // return [
-        //     'first_name' => $this->ask('What is author first name?'),
-        //     'last_name' => $this->ask('What is author last name?'),
-        //     'birthday' => $this->ask('What is author birthday?'),
-        //     'biography' => $this->ask('What is author biography?'),
-        //     'gender' => $this->ask('What is author gender?'),
-        //     'place_of_birth' => $this->ask('What is author place of birth?')
-        // ];
     }
 }
