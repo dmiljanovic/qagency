@@ -18,11 +18,6 @@ class AuthorController extends Controller
     protected $curlService;
 
     /**
-     * @var string
-     */
-    protected $token;
-
-    /**
      * AuthController constructor.
      *
      * @param CurlService $curlService
@@ -30,7 +25,6 @@ class AuthorController extends Controller
     public function __construct(CurlService $curlService)
     {
         $this->curlService = new $curlService;
-        $this->token = request()->session()->get('user_data')['token_key'];
     }
     
     /**
@@ -38,10 +32,11 @@ class AuthorController extends Controller
      */
     public function index()
     {
+        $token = request()->session()->get('user_data')['token_key'];
         $url = 'https://symfony-skeleton.q-tests.com/api/v2/authors?orderBy=id&direction=ASC&limit=12&page=1';
 
         try {
-            $makeCall = $this->curlService->callAPI('GET', $url, [], $this->token);
+            $makeCall = $this->curlService->callAPI('GET', $url, [], $token);
         } catch (\Exception $e) {
             Log::error('Error while getting authors: ', ['message' => $e]);
             request()->session()->flash('message', 'Unexpected error, please try again later.');
@@ -66,10 +61,11 @@ class AuthorController extends Controller
      */
     public function show($id)
     {
+        $token = request()->session()->get('user_data')['token_key'];
         $url = 'https://symfony-skeleton.q-tests.com/api/v2/authors/' . $id;
 
         try {
-            $makeCall = $this->curlService->callAPI('GET', $url, [], $this->token);
+            $makeCall = $this->curlService->callAPI('GET', $url, [], $token);
         } catch (\Exception $e) {
             Log::error('Error while getting authors: ', ['message' => $e]);
             request()->session()->flash('message', 'Unexpected error, please try again later.');
@@ -94,10 +90,11 @@ class AuthorController extends Controller
      */
     public function delete($id)
     {
-        $url = 'https://symfony-skeleton.q-tests.com/api/v2/authors/' . $id;
+        $token = request()->session()->get('user_data')['token_key'];
+        $url = 'https://symfony-skeletons.q-tests.com/api/v2/authors/' . $id;
 
         try {
-            $makeCall = $this->curlService->callAPI('DELETE', $url, [], $this->token);
+            $makeCall = $this->curlService->callAPI('DELETE', $url, [], $token);
         } catch (\Exception $e) {
             Log::error('Error while getting authors: ', ['message' => $e]);
             request()->session()->flash('message', 'Unexpected error, please try again later.');
@@ -108,7 +105,7 @@ class AuthorController extends Controller
         $response = json_decode($makeCall, true);
 
         if(isset($response['status'])) {
-            Log::error('Error while getting authors: ', ['message' => $response['trace']]);
+            Log::error('Error while getting authors: ', ['message' => $response]);
             request()->session()->flash('message', 'Unexpected error, please try again later.');
 
             return redirect()->back();

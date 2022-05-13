@@ -70,7 +70,7 @@
                 </div>
 
                 <div class="form-group">
-                    {!! Form::submit('Login', ['class' => 'btn btn-lg btn-primary btn-block']) !!}
+                    {!! Form::submit('Create', ['class' => 'btn btn-lg btn-primary btn-block']) !!}
                 </div>
 
                 {!! Form::close() !!}
