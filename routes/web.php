@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Middleware\CheckAuth;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +19,7 @@ Route::get('/', 'HomeController@index')->name('home.index');
 Route::get('/log', 'AuthController@log')->name('auth.login');
 Route::post('/log', 'AuthController@logging')->name('auth.logging');
 Route::get('/logout', 'AuthController@logout')->name('auth.logout');
-Route::middleware([CheckAuth::class])->group(function () {
+Route::middleware(['check.auth'])->group(function () {
     //Author
     Route::get('/author', 'AuthorController@index')->name('author.index');
     Route::get('/author/{author}', 'AuthorController@show')->name('author.show');

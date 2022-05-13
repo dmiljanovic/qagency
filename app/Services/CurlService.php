@@ -32,7 +32,7 @@ class CurlService
             'Content-Type: application/json',
         ];
         if($token) {
-            $headers[] = 'token_key: ' . $token;
+            $headers[] = 'Authorization: Bearer ' . $token;
         }
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);

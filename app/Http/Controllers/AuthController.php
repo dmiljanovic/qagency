@@ -75,7 +75,7 @@ class AuthController extends Controller
      */
     public function logout()
     {
-        request()->session()->forget('userData');
+        request()->session()->forget('user_data');
 
         return redirect()->route('home.index');
     }
