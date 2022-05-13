@@ -100,6 +100,7 @@ class BookController extends Controller
     public function store(StoreBookRequest $request)
     {
         $input = $request->validated();
+        $input['author'] = (array)$input['author'];
         $input['number_of_pages'] = (int) $input['number_of_pages'];
         
         $url = 'https://symfony-skeleton.q-tests.com/api/v2/books';
@@ -116,7 +117,7 @@ class BookController extends Controller
         $response = json_decode($makeCall, true);
 
         if(isset($response['status'])) {
-            Log::error('Error while getting books: ', ['message' => $response['trace']]);
+            Log::error('Error while getting books: ', ['message' => $response]);
             request()->session()->flash('message', 'Unexpected error, please try again later.');
 
             return redirect()->back()->withInput();
