@@ -48,18 +48,9 @@ class CreateAuthor extends Command
         $this->login();
 
         $data = $this->collectData();
-
         $url = 'https://symfony-skeleton.q-tests.com/api/v2/authors';
         
-        try {
-            $makeCall = $this->curlService->callAPI('POST', $url, json_encode($data), $this->token);
-        } catch (\Exception $e) {
-            Log::error('Error while creating author form console: ', ['message' => $e]);
-            $this->error('Unexpected error while creating author, please try again later.');
-
-            die();
-        }
-
+        $makeCall = $this->curlService->callAPI('POST', $url, json_encode($data), $this->token);
         $response = json_decode($makeCall, true);
 
         if(isset($response['status'])) {
@@ -79,19 +70,11 @@ class CreateAuthor extends Command
             "password" => 'Kryze4President'
         );
         
-        try {
-            $makeCall = $this->curlService->callAPI('POST', 'https://symfony-skeleton.q-tests.com/api/v2/token', json_encode($dataArray));
-        } catch (\Exception $e) {
-            Log::error('Error while login in from console: ', ['message' => $e]);
-            $this->error('Unexpected error while login in, please try again later.');
-
-            die();
-        }
-
+        $makeCall = $this->curlService->callAPI('POST', 'https://symfony-skeleton.q-tests.com/api/v2/token', json_encode($dataArray));
         $response = json_decode($makeCall, true);
 
         if(isset($response['status'])) {
-            Log::error('Error while login in from console: ', ['message' => $response['trace']]);
+            Log::error('Error while login in from console: ', ['message' => $response]);
             $this->error('Unexpected error while login in, please try again later.');
 
             die();

@@ -49,8 +49,8 @@ class AuthController extends Controller
         $makeCall = $this->curlService->callAPI('POST', 'https://symfony-skeleton.q-tests.com/api/v2/token', json_encode($dataArray));
         $response = json_decode($makeCall, true);
 
-        if(isset($response['status']) || !$response) {
-            Log::error('Error while getting authors: ', ['message' => $response ? $response : '']);
+        if(isset($response['status'])) {
+            Log::error('Error while getting authors: ', ['message' => $response]);
             request()->session()->flash('message', 'Unexpected error, please try again later.');
 
             return redirect()->back();
