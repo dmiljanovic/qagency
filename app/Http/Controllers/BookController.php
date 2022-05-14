@@ -36,15 +36,7 @@ class BookController extends Controller
         $token = request()->session()->get('user_data')['token_key'];
         $url = 'https://symfony-skeleton.q-tests.com/api/v2/books?orderBy=id&direction=ASC&limit=12&page=1';
 
-        try {
-            $makeCall = $this->curlService->callAPI('GET', $url, [], $token);
-        } catch (\Exception $e) {
-            Log::error('Error while getting authors: ', ['message' => $e]);
-            request()->session()->flash('message', 'Unexpected error, please try again later.');
-
-            return redirect()->back();
-        }
-
+        $makeCall = $this->curlService->callAPI('GET', $url, [], $token);
         $response = json_decode($makeCall, true);
 
         if(isset($response['status'])) {
@@ -65,15 +57,7 @@ class BookController extends Controller
         $token = request()->session()->get('user_data')['token_key'];
         $url = 'https://symfony-skeleton.q-tests.com/api/v2/authors?orderBy=id&direction=ASC&limit=100&page=1';
 
-        try {
-            $makeCall = $this->curlService->callAPI('GET', $url, [], $token);
-        } catch (\Exception $e) {
-            Log::error('Error while getting authors: ', ['message' => $e]);
-            request()->session()->flash('message', 'Unexpected error, please try again later.');
-
-            return redirect()->back();
-        }
-
+        $makeCall = $this->curlService->callAPI('GET', $url, [], $token);
         $response = json_decode($makeCall, true);
 
         if(isset($response['status'])) {
@@ -98,20 +82,11 @@ class BookController extends Controller
         $input = $request->validated();
         $input['author'] = (array)$input['author'];
         $input['number_of_pages'] = (int) $input['number_of_pages'];
-        $input['release_date'] = '2022-05-13T17:19:37.153Z';
         
         $token = request()->session()->get('user_data')['token_key'];
         $url = 'https://symfony-skeleton.q-tests.com/api/v2/books';
 
-        try {
-            $makeCall = $this->curlService->callAPI('POST', $url, json_encode($input), $token);
-        } catch (\Exception $e) {
-            Log::error('Error while storing books: ', ['message' => $e]);
-            request()->session()->flash('message', 'Unexpected error, please try again later.');
-
-            return redirect()->back()->withInput();
-        }
-
+        $makeCall = $this->curlService->callAPI('POST', $url, json_encode($input), $token);
         $response = json_decode($makeCall, true);
 
         if(isset($response['status'])) {
@@ -132,15 +107,7 @@ class BookController extends Controller
         $token = request()->session()->get('user_data')['token_key'];
         $url = 'https://symfony-skeleton.q-tests.com/api/v2/books/' . $id;
 
-        try {
-            $makeCall = $this->curlService->callAPI('DELETE', $url, [], $token);
-        } catch (\Exception $e) {
-            Log::error('Error while deleting books: ', ['message' => $e]);
-            request()->session()->flash('message', 'Unexpected error, please try again later.');
-
-            return redirect()->back();
-        }
-
+        $makeCall = $this->curlService->callAPI('DELETE', $url, [], $token);
         $response = json_decode($makeCall, true);
 
         if(isset($response['status'])) {
