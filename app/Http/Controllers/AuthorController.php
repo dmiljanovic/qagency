@@ -34,7 +34,7 @@ class AuthorController extends Controller
     {
         $response = $this->authorService->getAuthors();
 
-        if(isset($response['status'])) {
+        if(isset($response['status']) || isset($response['code'])) {
             Log::error('Error while getting authors: ', ['message' => $response]);
             request()->session()->flash('message', 'Unexpected error, please try again later.');
 
@@ -51,7 +51,7 @@ class AuthorController extends Controller
     {
         $response = $this->authorService->getAuthor($id);
 
-        if(isset($response['status'])) {
+        if(isset($response['status']) || isset($response['code'])) {
             Log::error('Error while getting authors: ', ['message' => $response]);
             request()->session()->flash('message', 'Unexpected error, please try again later.');
 
@@ -74,7 +74,7 @@ class AuthorController extends Controller
             return redirect()->back();
         }
 
-        if(isset($response['status'])) {
+        if(isset($response['status']) || isset($response['code'])) {
             Log::error('Error while getting authors: ', ['message' => $response]);
             request()->session()->flash('message', 'Unexpected error, please try again later.');
 

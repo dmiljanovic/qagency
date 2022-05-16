@@ -47,7 +47,7 @@ class BookController extends Controller
     {
         $response = $this->bookService->getBooks();
 
-        if(isset($response['status'])) {
+        if(isset($response['status']) || isset($response['code'])) {
             Log::error('Error while getting authors: ', ['message' => $response]);
             request()->session()->flash('message', 'Unexpected error, please try again later.');
 
@@ -64,7 +64,7 @@ class BookController extends Controller
     {
         $response = $this->authorService->getAuthors();
 
-        if(isset($response['status'])) {
+        if(isset($response['status']) || isset($response['code'])) {
             Log::error('Error while getting authors: ', ['message' => $response]);
             request()->session()->flash('message', 'Unexpected error, please try again later.');
 
@@ -83,9 +83,9 @@ class BookController extends Controller
      */
     public function store(StoreBookRequest $request)
     {
-        $response = $this->bookService->storeBook($request->validated());
+        $response = $this->bookService->storeBook([]);
 
-        if(isset($response['status'])) {
+        if(isset($response['status']) || isset($response['code'])) {
             Log::error('Error while storing books: ', ['message' => $response]);
             request()->session()->flash('message', 'Unexpected error, please try again later.');
 
@@ -104,7 +104,7 @@ class BookController extends Controller
     {
         $response = $this->bookService->deleteBook($id);
 
-        if(isset($response['status'])) {
+        if(isset($response['status']) || isset($response['code'])) {
             Log::error('Error while deleting book: ', ['message' => $response]);
             request()->session()->flash('message', 'Unexpected error, please try again later.');
 
