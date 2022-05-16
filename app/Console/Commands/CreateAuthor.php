@@ -83,7 +83,6 @@ class CreateAuthor extends Command
         $this->token = $response['token_key'];
     }
 
-
     /**
      * Collect data form console.
      *

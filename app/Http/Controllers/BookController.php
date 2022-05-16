@@ -96,6 +96,8 @@ class BookController extends Controller
             return redirect()->back()->withInput();
         }
 
+        request()->session()->flash('message', 'Succesfully created book.');
+
         return view('book.index');
     }
 

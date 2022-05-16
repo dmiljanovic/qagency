@@ -3,28 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Services\CurlService;
+use App\Services\AuthorService;
 use Illuminate\Support\Facades\Log;
 
 /**
- * Class HomeController
- * @package App\Http\Controllers\Home
+ * Class AuthorController
+ * @package App\Http\Controllers
  */
 class AuthorController extends Controller
 {
     /**
-     * @var CurlService
+     * @var AuthorService
      */
-    protected $curlService;
+    protected $authorService;
 
     /**
      * AuthController constructor.
      *
-     * @param CurlService $curlService
+     * @param AuthorService $authorService
      */
-    public function __construct(CurlService $curlService)
+    public function __construct(AuthorService $authorService)
     {
-        $this->curlService = new $curlService;
+        $this->authorService = $authorService;
     }
     
     /**
@@ -32,11 +32,7 @@ class AuthorController extends Controller
      */
     public function index()
     {
-        $token = request()->session()->get('user_data')['token_key'];
-        $url = 'https://symfony-skeleton.q-tests.com/api/v2/authors?orderBy=id&direction=ASC&limit=12&page=1';
-
-        $makeCall = $this->curlService->callAPI('GET', $url, [], $token);
-        $response = json_decode($makeCall, true);
+        $response = $this->authorService->getAuthors();
 
         if(isset($response['status'])) {
             Log::error('Error while getting authors: ', ['message' => $response]);
@@ -53,11 +49,7 @@ class AuthorController extends Controller
      */
     public function show($id)
     {
-        $token = request()->session()->get('user_data')['token_key'];
-        $url = 'https://symfony-skeleton.q-tests.com/api/v2/authors/' . $id;
-
-        $makeCall = $this->curlService->callAPI('GET', $url, [], $token);
-        $response = json_decode($makeCall, true);
+        $response = $this->authorService->getAuthor($id);
 
         if(isset($response['status'])) {
             Log::error('Error while getting authors: ', ['message' => $response]);
@@ -74,11 +66,13 @@ class AuthorController extends Controller
      */
     public function delete($id)
     {
-        $token = request()->session()->get('user_data')['token_key'];
-        $url = 'https://symfony-skeletons.q-tests.com/api/v2/authors/' . $id;
+        $response = $this->authorService->deleteAuthor($id);
 
-        $makeCall = $this->curlService->callAPI('DELETE', $url, [], $token);
-        $response = json_decode($makeCall, true);
+        if(!$response) {
+            request()->session()->flash('message', 'You are not allowed to delete author with books.');
+
+            return redirect()->back();
+        }
 
         if(isset($response['status'])) {
             Log::error('Error while getting authors: ', ['message' => $response]);
