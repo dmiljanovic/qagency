@@ -4,28 +4,40 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Book\StoreBookRequest;
+use App\Services\AuthorService;
+use App\Services\BookService;
 use App\Services\CurlService;
 use Illuminate\Support\Facades\Log;
 
 /**
- * Class HomeController
- * @package App\Http\Controllers\Home
+ * Class BookController
+ * @package App\Http\Controllers
  */
 class BookController extends Controller
 {
     /**
-     * @var CurlService
+     * @var BookService
      */
-    protected $curlService;
 
     /**
-     * AuthController constructor.
-     *
-     * @param CurlService $curlService
+     * @var AuthorService
      */
-    public function __construct(CurlService $curlService)
+    protected $authorService;
+
+    /**
+     * @var BookService
+     */
+    protected $bookService;
+
+    /**
+     * BookController constructor.
+     *
+     * @param BookService $bookService
+     */
+    public function __construct(BookService $bookService, AuthorService $authorService)
     {
-        $this->curlService = new $curlService;
+        $this->bookService = $bookService;
+        $this->authorService = $authorService;
     }
 
     /**
@@ -33,11 +45,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        $token = request()->session()->get('user_data')['token_key'];
-        $url = 'https://symfony-skeleton.q-tests.com/api/v2/books?orderBy=id&direction=ASC&limit=12&page=1';
-
-        $makeCall = $this->curlService->callAPI('GET', $url, [], $token);
-        $response = json_decode($makeCall, true);
+        $response = $this->bookService->getBooks();
 
         if(isset($response['status'])) {
             Log::error('Error while getting authors: ', ['message' => $response]);
@@ -54,11 +62,7 @@ class BookController extends Controller
      */
     public function create()
     {
-        $token = request()->session()->get('user_data')['token_key'];
-        $url = 'https://symfony-skeleton.q-tests.com/api/v2/authors?orderBy=id&direction=ASC&limit=100&page=1';
-
-        $makeCall = $this->curlService->callAPI('GET', $url, [], $token);
-        $response = json_decode($makeCall, true);
+        $response = $this->authorService->getAuthors();
 
         if(isset($response['status'])) {
             Log::error('Error while getting authors: ', ['message' => $response]);
@@ -79,15 +83,7 @@ class BookController extends Controller
      */
     public function store(StoreBookRequest $request)
     {
-        $input = $request->validated();
-        $input['author'] = (array)$input['author'];
-        $input['number_of_pages'] = (int) $input['number_of_pages'];
-        
-        $token = request()->session()->get('user_data')['token_key'];
-        $url = 'https://symfony-skeleton.q-tests.com/api/v2/books';
-
-        $makeCall = $this->curlService->callAPI('POST', $url, json_encode($input), $token);
-        $response = json_decode($makeCall, true);
+        $response = $this->bookService->storeBook($request->validated());
 
         if(isset($response['status'])) {
             Log::error('Error while storing books: ', ['message' => $response]);
@@ -98,7 +94,7 @@ class BookController extends Controller
 
         request()->session()->flash('message', 'Succesfully created book.');
 
-        return view('book.index');
+        return redirect()->back();
     }
 
     /**
@@ -106,11 +102,7 @@ class BookController extends Controller
      */
     public function delete($id)
     {
-        $token = request()->session()->get('user_data')['token_key'];
-        $url = 'https://symfony-skeleton.q-tests.com/api/v2/books/' . $id;
-
-        $makeCall = $this->curlService->callAPI('DELETE', $url, [], $token);
-        $response = json_decode($makeCall, true);
+        $response = $this->bookService->deleteBook($id);
 
         if(isset($response['status'])) {
             Log::error('Error while deleting book: ', ['message' => $response]);

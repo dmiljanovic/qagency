@@ -2,8 +2,8 @@
     <div class="collapse navbar-collapse">
         <div class="navbar-nav">
             @if(request()->session()->has('user_data'))
-            <a class="nav-item nav-link">
-            Welocome {{ session('user_data')['user']['first_name'] }} {{ session('user_data')['user']['last_name'] }}
+            <a class="nav-item nav-link text-info">
+            Welcome {{ session('user_data')['user']['first_name'] }} {{ session('user_data')['user']['last_name'] }}
             </a>
             @endif
             <a class="nav-item nav-link" href="{{ URL::to(route('home.index')) }}">Home</a>

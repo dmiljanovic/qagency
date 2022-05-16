@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Services\CurlService;
 
-class AuthorService
+class BookService
 {
     /**
      * @var CurlService
@@ -12,7 +12,7 @@ class AuthorService
     protected $curlService;
 
     /**
-     * AuthorService constructor.
+     * BookService constructor.
      *
      * @param CurlService $curlService
      */
@@ -21,49 +21,35 @@ class AuthorService
         $this->curlService = $curlService;
     }
 
-    public function getAuthors()
+    public function getBooks()
     {
         $token = request()->session()->get('user_data')['token_key'];
-        $url = 'https://symfony-skeleton.q-tests.com/api/v2/authors?orderBy=id&direction=ASC&limit=12&page=1';
+        $url = 'https://symfony-skeleton.q-tests.com/api/v2/books?orderBy=id&direction=ASC&limit=12&page=1';
 
         $makeCall = $this->curlService->callAPI('GET', $url, [], $token);
 
         return json_decode($makeCall, true);
     }
 
-    public function getAuthor($id)
+    public function storeBook($input)
     {
+        $input['author'] = (array)$input['author'];
+        $input['number_of_pages'] = (int) $input['number_of_pages'];
+        
         $token = request()->session()->get('user_data')['token_key'];
-        $url = 'https://symfony-skeleton.q-tests.com/api/v2/authors/' . $id;
+        $url = 'https://symfony-skeleton.q-tests.com/api/v2/books';
 
-        $makeCall = $this->curlService->callAPI('GET', $url, [], $token);
+        $makeCall = $this->curlService->callAPI('POST', $url, json_encode($input), $token);
 
         return json_decode($makeCall, true);
     }
 
-    public function deleteAuthor($id)
+    public function deleteBook($id)
     {
-        $hasBooks = $this->authorHasBook($id);
-        if($hasBooks) {
-            return false;
-        }
-
         $token = request()->session()->get('user_data')['token_key'];
-        $url = 'https://symfony-skeletons.q-tests.com/api/v2/authors/' . $id;
+        $url = 'https://symfony-skeleton.q-tests.com/api/v2/books/' . $id;
 
         $makeCall = $this->curlService->callAPI('DELETE', $url, [], $token);
-
         return json_decode($makeCall, true);
-    }
-
-    private function authorHasBook($id)
-    {
-        $author =  $this->getAuthor($id);
-
-        if($author['books']) {
-            return true;
-        }
-
-        return false;
     }
 }
