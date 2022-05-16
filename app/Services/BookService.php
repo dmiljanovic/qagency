@@ -21,6 +21,9 @@ class BookService
         $this->curlService = $curlService;
     }
 
+    /**
+     * @return array
+     */
     public function getBooks()
     {
         $token = request()->session()->get('user_data')['token_key'];
@@ -31,6 +34,10 @@ class BookService
         return json_decode($makeCall, true);
     }
 
+    /**
+     * @param array $input
+     * @return array
+     */
     public function storeBook($input)
     {
         $input['author'] = (array)$input['author'];
@@ -44,6 +51,10 @@ class BookService
         return json_decode($makeCall, true);
     }
 
+    /**
+     * @param string $id
+     * @return array
+     */
     public function deleteBook($id)
     {
         $token = request()->session()->get('user_data')['token_key'];

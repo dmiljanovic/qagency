@@ -21,6 +21,9 @@ class AuthorService
         $this->curlService = $curlService;
     }
 
+    /**
+     * @return array
+     */
     public function getAuthors()
     {
         $token = request()->session()->get('user_data')['token_key'];
@@ -31,6 +34,10 @@ class AuthorService
         return json_decode($makeCall, true);
     }
 
+    /**
+     * @param string $id
+     * @return array
+     */
     public function getAuthor($id)
     {
         $token = request()->session()->get('user_data')['token_key'];
@@ -41,6 +48,10 @@ class AuthorService
         return json_decode($makeCall, true);
     }
 
+    /**
+     * @param string $id
+     * @return array
+     */
     public function deleteAuthor($id)
     {
         $hasBooks = $this->authorHasBook($id);
@@ -56,6 +67,9 @@ class AuthorService
         return json_decode($makeCall, true);
     }
 
+    /**
+     * @return bool
+     */
     private function authorHasBook($id)
     {
         $author =  $this->getAuthor($id);

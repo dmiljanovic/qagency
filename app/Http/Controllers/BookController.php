@@ -83,7 +83,7 @@ class BookController extends Controller
      */
     public function store(StoreBookRequest $request)
     {
-        $response = $this->bookService->storeBook([]);
+        $response = $this->bookService->storeBook($request->validated());
 
         if(isset($response['status']) || isset($response['code'])) {
             Log::error('Error while storing books: ', ['message' => $response]);
